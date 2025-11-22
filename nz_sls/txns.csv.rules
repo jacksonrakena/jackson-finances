@@ -6,6 +6,8 @@ fields _, _, date, description, amount
 
 date-format %d/%m/%Y
 
+currency NZD 
+
 # Student loan account is the balancing account
 account2 liabilities:loans:nz_student_loan
 
