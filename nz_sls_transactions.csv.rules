@@ -1,0 +1,50 @@
+# skip IRD garbage
+skip 8
+
+# Period ending, Account type, Date, Transaction, Amount
+fields _, _, date, description, amount
+
+date-format %d/%m/%Y
+
+# Student loan account is the balancing account
+account2 liabilities:loans:nz_student_loan
+
+# --- Classification Rules ---
+
+# Money borrowed for living and course related costs
+# These are usually deposited directly into cash account
+if
+Living costs
+Course related costs
+ account1 assets:cash
+
+# Repayment deductions are captured from pre-tax income in New Zealand
+# unless the ledger holder is capturing all pre-tax records instead of their
+# post-tax deposit, this is hard to record, so just dump it in an ignored account
+if
+Repayment deduction
+ account1 other:paye_deductions:nz_student_loan_deduction
+
+# Manual payments or Voluntary repayments
+if Payment
+ account1 assets:cash
+
+# Interest charged on the loan
+if interest
+ account1 liabilities:loans:nz_student_loan:interest
+
+# Various establishment and maintenance fees charged by IRD/StudyLink
+if fee
+ account1 liabilities:loans:nz_student_loan:fees
+
+# Tuition paid to university
+if
+Compulsory course fee
+ account1 expenses:education:tuition
+
+# IRD sometimes moves money between year accounts
+if Transfer
+ account1 liabilities:loans:nz_student_loan:transfers
+
+if ,,,,,,,
+ end
