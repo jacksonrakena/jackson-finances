@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/node": "^24.10.1"
+  },
+  "type": "module",
+  "dependencies": {
+    "export-to-csv": "^1.4.0"
+  }
+}

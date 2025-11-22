@@ -1,0 +1,30 @@
+skip 1
+
+fields date, description, amount, currency, account1, account2, _
+
+date-format %Y-%m-%dT%H:%M:%S%z
+
+if
+Citi Prestige
+Citibank Creditcards
+ account2 liabilities:creditcards:citi_prestige
+
+if
+Amex Qantas Discovery
+ account2 liabilities:creditcards:amex_qantas_discovery
+
+if
+Amex Platinum Edge
+ account2 liabilities:creditcards:amex_plat_edge
+
+if
+BNZ Spending
+ account2 assets:cash:bnz
+
+if
+Auto Transfer to 2Up Spending
+ account2 expenses:household:rent-and-mortgage
+
+if
+Interest
+ account2 income:interest
