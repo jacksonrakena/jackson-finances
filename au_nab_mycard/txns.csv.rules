@@ -1,0 +1,131 @@
+# Skip the header line
+skip 1
+
+# Define the date format used in the CSV
+date-format %d %b %y
+
+# Define the columns (Note: column 4 is empty in the CSV)
+fields date, amount, account_num, _, type, details, csv_category, merchant, processed
+
+# Use the Account Number column to help identify the source account
+# This will create accounts like 'liabilities:credit-card:Card-ending-xxxx'
+account1 liabilities:creditcards:citi_prestige
+
+# Combine merchant and details for the transaction description
+description %merchant %details
+
+# --- Category Mappings ---
+
+# Groceries
+if %csv_category Groceries
+    account2  expenses:household:groceries
+
+# Alcohol -> Booze
+if %csv_category Alcohol
+    account2  expenses:personal:booze
+
+# Education
+if %csv_category Education
+    account2  expenses:personal:education-and-student-loans
+
+# Public Transport
+if %csv_category Public transport
+    account2  expenses:transport:public-transport
+
+# Restaurants & Takeaway -> Takeaway
+if %csv_category Restaurants & takeaway
+    account2  expenses:personal:takeaway
+
+# Cafe & Coffee -> Restaurants & Cafes
+if %csv_category Cafe & coffee
+    account2  expenses:personal:restaurants-and-cafes
+
+# Medical
+if %csv_category Medical
+    account2  expenses:personal:health-and-medical
+
+# Personal care -> Hair & Beauty
+if %csv_category Personal care
+    account2  expenses:personal:hair-and-beauty
+
+# Clothing & accessories
+if %csv_category Clothing & accessories
+    account2  expenses:personal:clothing-and-accessories
+
+# Subscriptions -> TV & Music
+if %csv_category Subscriptions
+    account2  expenses:personal:tv-and-music
+
+# Tobacco
+if %csv_category Tobacco
+    account2  expenses:personal:tobacco-and-vaping
+
+# Electronics & technology -> Technology
+if %csv_category Electronics & technology
+    account2  expenses:personal:technology
+
+# Media -> News, Magazines & Books
+if %csv_category Media
+    account2  expenses:personal:news-magazines-and-books
+
+# Travel & Flights
+if %csv_category Travel expenses|Flights
+    account2  expenses:personal:holidays-and-travel
+
+# Fuel
+if %csv_category Fuel
+    account2  expenses:transport:fuel
+
+# Attractions & events
+if %csv_category Attractions & events
+    account2  expenses:personal:events-and-gigs
+
+# Phone & internet
+if %csv_category Phone & internet
+    account2  expenses:household:internet
+
+# Taxis & ride shares
+if %csv_category Taxis & ride shares
+    account2  expenses:transport:taxis-and-share-cars
+
+# Parking & tolls
+if %csv_category Parking & tolls
+    account2  expenses:transport:parking
+
+# Homeware
+if %csv_category Homeware
+    account2  expenses:household:homeware-and-appliances
+
+# Gym & fitness -> Fitness & Wellbeing
+if %csv_category Gym & fitness
+    account2  expenses:personal:fitness-and-wellbeing
+
+# Home improvements
+if %csv_category Home improvements
+    account2  expenses:household:home-maintenance-and-improvements
+
+# Donations -> Gifts & Charity
+if %csv_category Donations
+    account2  expenses:personal:gifts-and-charity
+
+# Mortgage & rent
+if %csv_category Mortgage & rent
+    account2  expenses:household:rent-and-mortgage
+
+# --- Fallbacks & Special Cases ---
+
+# Other Income
+if %csv_category Other income
+    account2  income:other
+
+# Internal Transfers
+if %csv_category Internal transfers
+    account2  assets:transfers
+
+# Refunds (can be mapped back to a generic or specific account)
+if %csv_category Refund
+    account2  expenses:personal:life-admin
+
+# Default for Uncategorised, Fees, Services, etc.
+if %csv_category Uncategorised|Fees|Other shopping|Services|Government
+    account2  expenses:personal:other

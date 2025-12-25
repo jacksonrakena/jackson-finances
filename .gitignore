@@ -1,3 +1,5 @@
 .up-bank-token
 **/data
 node_modules
+*.journal
+*.csv
